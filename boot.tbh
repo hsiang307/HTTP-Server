@@ -1,0 +1,21 @@
+	declare sub signal_strength_set(strength as byte)
+	declare sub lcd_init()
+	declare sub lcd_draw_matrix()
+	declare sub print_image(x1 as byte, x2 as byte, y1 as byte, y2 as byte, multiple as byte)
+	declare sub convertHTML(s as string)
+	
+	#if SCREEN_SAVER
+		declare sub lcd_draw_matrix2()
+		declare sub lcd_draw_matrix3()
+		declare sub lcd_draw_matrix4()
+	#endif
+	
+	
+	
+	#if FILE_BASED_ACCESS
+		declare sub write_file_based()
+	#endif
+
+	#if DIRECT_SECTOR_ACCESS
+		declare sub write_direct_sector()
+	#endif

@@ -1,0 +1,25 @@
+<html><body>
+
+<?
+	include "global.tbh"
+	include "boot.tbh"
+	
+	dim s as string = "1"
+	
+	while len(s)<>0
+		
+		fd.filenum=0
+		fd.open("uploadedfile.dat")
+		s=sock.gethttprqstring(255)
+		fd.setpointer(fd.filesize+1) 
+		fd.setdata(s)
+		fd.transactioncommit 
+		fd.close
+		
+	wend
+	
+?>
+<h1>Upload Complete!</h1>
+<a href="index.html"><h3>Main menu</h3></a>
+
+</body></html>

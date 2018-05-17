@@ -1,0 +1,123 @@
+include "global.tbh"
+
+'------------------------------------------------------------------------------
+#if DIRECT_SECTOR_ACCESS
+public sub write_direct_sector()
+
+	dim s as string
+	dim i as word
+	
+	fd.formatj((fd.availableflashspace/4)*3,10,100)
+	fd.mount
+
+	fd.buffernum=0 
+
+	if fd.getsector(10)<>PL_FD_STATUS_OK Then
+		sys.debugprint("Flash error\x0A")
+	else
+		sys.debugprint("Flash OK\x0A")
+	end if	
+	if fd.checksum(PL_FD_CSUM_MODE_CALCULATE,i)<>OK Then
+		sys.debugprint("Checksum calculation error\x0A")
+	else
+		sys.debugprint("Checksum calculation OK\x0A")
+	end if
+	
+	fd.setbuffer("The Group comprises two member companies: Tibbo Technology and Tibbo Systems.",0) 
+	s=fd.getbuffer(0,77)
+	sys.debugprint(s)
+	sys.debugprint("\x0A")
+
+	if fd.setsector(10)<>PL_FD_STATUS_OK Then
+		sys.debugprint("Flash error\x0A")
+	else
+		sys.debugprint("Flash OK\x0A")
+	end If
+	if fd.checksum(PL_FD_CSUM_MODE_VERIFY,i)<>OK Then
+		sys.debugprint("Checksum verification error\x0A")
+	else
+		sys.debugprint("Checksum OK\x0A")
+	end if
+	
+end sub
+
+#endif
+
+public sub write_file_based()
+
+	dim s as string
+	dim f as byte
+
+	'Format and mount drive
+		
+	fd.formatj((fd.availableflashspace/4)*3,10,100)
+	fd.mount
+		
+	'Create 5 files
+			
+	for f=1 to 5
+		fd.create("File" + str(f) + ".dat File " + str(f) + " Attributes")
+	next f
+
+	'Print file names
+	
+	fd.resetdirpointer
+	for f=1 to fd.getnumfiles
+		s=fd.getnextdirmember
+		Sys.debugprint(s)
+		Sys.debugprint("\x0A")
+	Next f
+	
+	'Delete file with "3" in attributes
+		
+	for f=1 to (fd.getnumfiles+1)
+		s=fd.getattributes("File" + str(f) + ".dat") 
+		If instr(1,s,"3",1)<>0 Then 
+			fd.delete("File" + str(f) + ".dat")
+			sys.debugprint("File" + str(f) + ".dat deleted")
+			Sys.debugprint("\x0A")
+		End If
+	next f
+
+	'Begin performing disk transaction 
+	
+	fd.transactionstart
+
+	'Open file "File4.dat"
+	
+	fd.filenum=0
+	fd.open("File4.dat")
+	
+	'Write sentence to file
+	
+	fd.setpointer(fd.filesize+1) 
+	fd.setdata("Tibbo, an international group of companies, is a leader in hardware and software solutions for the Internet of Things (IoT).")
+	fd.setpointer(1)
+	s=fd.getdata(255)
+	sys.debugprint(s + "\x0A")
+		
+	'Find locations of strings "hardware" and software in file
+	
+	Dim dw, dw2 As dword
+	dw=fd.find(8,"hardware",1,FORWARD,1,PL_FD_FIND_EQUAL)
+	dw2=fd.find(8,"software",1,FORWARD,1,PL_FD_FIND_EQUAL)
+	
+	'Switch strings "hardware" to "software"
+	
+	fd.setpointer(dw)
+	fd.setdata("software")
+	fd.setpointer(dw2)
+	fd.setdata("hardware")
+	fd.setpointer(1)
+	s=fd.getdata(255)
+	sys.debugprint(s + "\x0A")	
+	
+	'Commit disk transaction
+	
+	fd.transactioncommit 
+	
+	'Close file
+	
+	fd.close
+
+end sub

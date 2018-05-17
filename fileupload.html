@@ -1,0 +1,26 @@
+
+<html>
+<body>
+
+<?
+
+	fd.formatj((fd.availableflashspace/4)*3,10,100)
+	fd.mount
+	fd.create("uploadedfile.dat")
+	fd.transactionstart
+	include "global.tbh"
+	
+?>
+
+<h1>Choose file to upload</h1><br>
+
+<form method='post' action="/executeupload.html" enctype="multipart/form-data">
+	<input type="file" id="file" name="file"><br><br>
+	<input type="submit" value="Submit">
+</form>
+
+
+<a href="index.html"><h3>Main menu</h3></a>
+
+</body>
+</html>
