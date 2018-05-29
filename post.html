@@ -4,7 +4,6 @@ When the user clicks the link to go to the download.html page, the file correspo
 <?
 
 include "global.tbh"
-include "boot.tbh"
 
 dim s as string
 
@@ -20,14 +19,18 @@ stg_set("FNU",0,s)
 </head>
 <body>
 
+<a href="http://tibbo.com/">
+<img src="logo.png" alt="Tibbo Technology" class="logo" width="155" height="80"/>
+</a>
 
-<h1>Click on the link below to download file</h1><br>
 
-<h3><a href="download.html" download><button type="button">
+<div><h1>Click on the link below to download file</h1></div>
 
-Download File</button></h3>
+<div><h3><a href="download.html" download><button type="button">
 
-</br><h3><a href="index.html">Main menu</h3></a>
+Download File</button></h3></div>
+
+<div><h3><a href="index.html">Main menu</h3></a></div>
 
 </body>
 </html>

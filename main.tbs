@@ -16,7 +16,7 @@ end sub
 
 'Uploads file to the TPS
 
-sub upload_file()
+function upload_file() as ok_ng
 	
 	dim s as string
 	dim filenum as byte=val(stg_get("FNU",0))
@@ -25,12 +25,17 @@ sub upload_file()
 	fd.transactionstart
 	fd.open(str(filenum) + ".dat")
 	s=remove_header_get_filename()
+	if s="No File Selected" then
+		upload_file=NG
+		exit function
+	end if
 	fd.setpointer(fd.filesize+1) 
 	fd.setdata(s)
 	fd.transactioncommit 
 	fd.close
+	upload_file=OK
 		
-end sub
+end function
 
 'Removes HTML header and footer if present. Saves the filename into the STG library for later use.
 
@@ -48,6 +53,11 @@ function remove_header_get_filename() as string
 		s=sock.httprqstring
 		b=instr(1,s,"\x22\x0d\x0a",1)
 		s=sock.gethttprqstring(b-1)
+		if len(s)=0 then
+			fd.delete(str(fd.filenum) + ".dat")
+			remove_header_get_filename="No File Selected"
+			exit function
+		end if
 		stg_set("FNA",stg_get("FNU",0),s)
 		sock.gethttprqstring(31)
 	end if

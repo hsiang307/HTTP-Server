@@ -25,7 +25,7 @@ include "dns\trunk\dns.tbh"
 'Functions
 
 declare sub init()
-declare sub upload_file()
+declare function upload_file() as ok_ng
 declare sub detect_module_type()
 declare function remove_header_get_filename() as string
 declare function connect_to_ap(byref ap_name as string, security_mode as pl_wln_security_modes, byref key as string, domain as pl_wln_domains) as en_wln_status_codes

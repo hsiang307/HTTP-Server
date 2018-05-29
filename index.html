@@ -1,18 +1,118 @@
-<!–– Index page. User can select whether to upload or download files––>
+<!–– Index page. User can select whether to upload or download files.
+Iterates through File Number settings settings. For each iteration, displays a button for the filename. 
+Clicking the button will link to seperate page to download chosen file––>
 
 <html> 
+
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
-</head><body>
-<form action="login.html" method="post">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
 
-<h1>Upload/Download a maximum number of 10 files to the device</h1><br>
+<body>
+
+<a href="http://tibbo.com/">
+<img src="logo.png" alt="Tibbo Technology" class="logo" width="155" height="80"/>
+</a>
+
+
+<div><h1>Upload/Download a Maximum Number of 10 Files</h1></div>
+
+<?
+include "global.tbh"
+dim b, f as byte
+b=stg_get("FNU",0)
+
+if fd.getnumfiles=0 then 
+?>
+<div><h2>No files have been uploaded to the device</h2></div>
+<?
+
+
+else
+
+?>
+<div>
+<?
+
+for f=1 to b
+
+?>
+
+<h3><form action="post.html" method="post">
+  <button type="submit" name="
+
+<?  
+sock.setdata(str(f))
+ ?>  
+
+" value="
+
+<?  
+
+sock.setdata(str(f))
+
+?> 
+
+" class="btn-link">
+
+<?
+
+sock.setdata(stg_get("FNA",f))
+
+?>
+
+</button>
+</form>
+</h3>
+
+</a>
+<?
+next f
+end if
+?>
+</div>
+
+
+</form>
+
+<div><h3>
+<form method='post' action="/executeupload.html" enctype="multipart/form-data">
+	<input type="file" id="file" name="file"><br><br>
+	<input type="submit" value="Submit" disabled />
+</form></h3>
 
 <h3>
-<a href="fileupload.html">Upload file to device</a><br>
-<a href="filedownload.html">Download file from device</a><br>
-</h3>
-		
+<button onclick="myFunction()">Delete all files</button>
+</h3></div>
+
+<script>
+function myFunction() {
+    var txt;
+    var r = confirm("Do you want to delete all files?");
+    if (r == true) {
+        window.location.replace("deletefiles.html");
+    } else {
+    }
+}
+
+
+$(document).ready(
+    function(){
+        $('input:file').change(
+            function(){
+                if ($(this).val()) {
+                    $('input:submit').attr('disabled',false);
+                } 
+            }
+            );
+    });
+</script>
+
+<?
+stg_set("FNU",0,str(fd.getnumfiles+1))
+?>
+
 </form>
 </body>
 </html>
