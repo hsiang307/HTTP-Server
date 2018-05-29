@@ -1,27 +1,21 @@
+<!–– Uploads file to the device ––>
+
 <html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
 <body>
 
 <?
 	include "global.tbh"
-	include "boot.tbh"
 
-	dim s as string = "1"
-
-	while len(s)<>0
-		
-		fd.filenum=0
-		fd.open("uploadedfile.dat")
-		s=sock.gethttprqstring(255)
-		s=remove_headers_and_footers(s)
-		fd.setpointer(fd.filesize+1) 
-		fd.setdata(s)
-		fd.transactioncommit 
-		fd.close
-		
+	while len(sock.httprqstring)<>0
+		upload_file()	
 	wend
 	
 ?>
 <h1>Upload Complete!</h1>
-<a href="index.html"><h3>Main menu</h3></a>
+<br><h3><a href="index.html">Main menu</h3></a>
 
-</body></html>
+</body>
+</html>

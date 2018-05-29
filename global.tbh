@@ -1,4 +1,5 @@
 #define DHCP_DEBUG_PRINT 1 
+#define STG_DEBUG_PRINT 1 
 
 'Wi-Fi setup
 
@@ -23,7 +24,10 @@ include "dns\trunk\dns.tbh"
 
 'Functions
 
-declare function remove_headers_and_footers (data as string) as string
+declare sub init()
+declare sub upload_file()
+declare sub detect_module_type()
+declare function remove_header_get_filename() as string
 declare function connect_to_ap(byref ap_name as string, security_mode as pl_wln_security_modes, byref key as string, domain as pl_wln_domains) as en_wln_status_codes
 
 const DHCP_FAIL_LIMIT=1 'max number of DHCP retry "batches"

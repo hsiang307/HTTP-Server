@@ -1,0 +1,33 @@
+<!–– Gets the file number chosen by the user. Sets the value of FNU setting to that number. 
+When the user clicks the link to go to the download.html page, the file corresponding to this file number will be downloaded.––>
+
+<?
+
+include "global.tbh"
+include "boot.tbh"
+
+dim s as string
+
+s=sock.gethttprqstring(255)
+s=mid(s,13,1)
+stg_set("FNU",0,s)
+
+?>
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+
+<h1>Click on the link below to download file</h1><br>
+
+<h3><a href="download.html" download><button type="button">
+
+Download File</button></h3>
+
+</br><h3><a href="index.html">Main menu</h3></a>
+
+</body>
+</html>

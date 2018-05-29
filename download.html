@@ -1,14 +1,17 @@
+<!–– Downloads the file open on the file number set in FNU in settings library. 
+Downloads as a HTML file called download.html, extension may require changing ––>
 <?
 	include "global.tbh"
 	include "boot.tbh"
 	
 	dim s as string = "1"
+	dim b as byte = stg_get("FNU",0)
 	dim loops as word = 0
 	
 	while len(s)<>0
 	
-		fd.filenum=0
-		fd.open("uploadedfile.dat")
+		fd.filenum=b
+		fd.open(str(b)+".dat")
 		fd.setpointer((255*loops)+1) 
 		loops=loops+1
 		s=fd.getdata(255)
