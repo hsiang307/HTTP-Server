@@ -2,8 +2,8 @@
 version=1
 platform=TPP2W(G2)
 src_lib_ver=2_01_02
-name=HTTP Server
-output=HTTP Server.tpc
+name=HTTP-Server
+output=HTTP-Server.tpc
 debug=on
 defines= /dLCD_TYPE=SOLOMON_SSD1963 /dWLN_WPA=1 /dOBJECT_LCD=LCD_ENABLED /dWLN_AVAILABLE=1 /dOBJECT_FD=FD_ENABLED /dOBJECT_KP=KP_ENABLED /dOBJECT_WLN=WLN_ENABLED
 transport=udp_broadcast
